@@ -3,6 +3,7 @@
 <img src="src/main/resources/assets/iridium/icon.png" width="128">
 
 ![GitHub License](https://img.shields.io/github/license/YoArchh/Iridium)
+![GitHub Worfflow Status](https://img.shields.io/github/actions/workflow/status/YoArchh/Iridium/.github/workflows/build.yml)
 ![GitHub Issues](https://img.shields.io/github/issues/YoArchh/Iridium)
 
 Iridium is a free and open-source Minecraft mod which replaces the game rendering and audio engine implementations with ones that make use of Vulkan and FMOD respectively. The goal of Iridium is to make Minecraft more enjoyable by providing increased frame rates with Vulkan and a better (and potentially more immersive) audio experience with FMOD.

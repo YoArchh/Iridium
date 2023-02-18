@@ -1,17 +1,17 @@
 package me.yoarchh.iridium;
 
+import me.yoarchh.iridium.utils.IridiumLogger;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.core.Logger;
 
 @Environment(EnvType.CLIENT)
 public class IridiumClientMod implements ClientModInitializer
 {
     private static IridiumClientMod INSTANCE;
 
-    private static final Logger LOGGER = (Logger) LogManager.getLogger("Iridium");
+    // (YoArchh) Might change the logger's name. Not sure.
+    private static final IridiumLogger LOGGER = new IridiumLogger("Iridium Core");
 
     @Override
     public void onInitializeClient()
@@ -23,5 +23,5 @@ public class IridiumClientMod implements ClientModInitializer
 
     public static IridiumClientMod getInstance() { return INSTANCE; }
 
-    public static Logger getLogger() { return LOGGER; }
+    public static IridiumLogger getLogger() { return LOGGER; }
 }
