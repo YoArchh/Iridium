@@ -1,0 +1,35 @@
+{
+	"schemaVersion": 1,
+	"id": "iridium",
+	"version": "${version}",
+	"name": "Iridium",
+	"description": "A modern rendering and audio engine replacement mod for Minecraft.",
+	"authors": [
+		"YoArchh"
+	],
+	"contact": {
+		"homepage": "https://modrinth.com/mod/iridium",
+		"sources": "https://github.com/YoArchh/Iridium",
+		"issues": "https://github.com/YoArchh/Iridium/issues"
+	},
+	"license": "LGPL-3.0",
+	"icon": "assets/iridium/icon.png",
+	"environment": "client",
+	"entrypoints": {
+		"client": [
+			"me.yoarchh.iridium.IridiumClientMod"
+		]
+	},
+	"mixins": [
+		"iridium.mixins.json"
+	],
+	"depends": {
+		"fabricloader": ">=0.14.14",
+		"minecraft": "~1.19.3",
+		"java": ">=17",
+		"fabric-api": "*"
+	},
+	"suggests": {
+		"another-mod": "*"
+	}
+}
