@@ -1,3 +1,5 @@
+import org.gradle.internal.os.OperatingSystem
+
 plugins {
 	id 'fabric-loom' version '1.1-SNAPSHOT'
 	id 'org.ajoberstar.grgit' version '5.0.0'
@@ -11,12 +13,32 @@ archivesBaseName = "${project.archives_base_name}-mc${project.minecraft_version}
 version = "${project.mod_version}+${getGitVersionMetadata()}"
 group = project.maven_group
 
+switch (OperatingSystem.current()) {
+	case OperatingSystem.LINUX:
+		def osArch = System.getProperty("os.arch")
+		project.lwjgl_natives = osArch.startsWith("arm") || osArch.startsWith("aarch64")
+				? "natives-linux-${osArch.contains("64") || osArch.startsWith("armv8") ? "arm64" : "arm32"}"
+				: "natives-linux"
+		break
+	case OperatingSystem.MAC_OS:
+		project.lwjgl_natives = System.getProperty("os.arch").startsWith("aarch64") ? "natives-macos-arm64" : "natives-macos"
+		break
+	case OperatingSystem.WINDOWS:
+		def osArch = System.getProperty("os.arch")
+		project.lwjgl_natives = osArch.contains("64")
+				? "natives-windows${osArch.startsWith("aarch64") ? "-arm64" : ""}"
+				: "natives-windows-x86"
+		break
+}
+
 repositories {
 	// Add repositories to retrieve artifacts from in here.
 	// You should only use this when depending on other mods because
 	// Loom adds the essential maven repositories to download Minecraft and libraries from automatically.
 	// See https://docs.gradle.org/current/userguide/declaring_repositories.html
 	// for more information about repositories.
+
+	mavenCentral()
 }
 
 dependencies {
@@ -27,6 +49,18 @@ dependencies {
 
 	// Fabric API. This is technically optional, but you probably want it anyway.
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+
+	// LWJGL
+	implementation platform("org.lwjgl:lwjgl-bom:${project.lwjgl_version}")
+
+	include(implementation "org.lwjgl:lwjgl")
+	include(implementation "org.lwjgl:lwjgl-shaderc")
+	include(implementation "org.lwjgl:lwjgl-vma")
+	include(implementation "org.lwjgl:lwjgl-vulkan")
+	include(runtimeOnly "org.lwjgl:lwjgl::${project.lwjgl_natives}")
+	include(runtimeOnly "org.lwjgl:lwjgl-shaderc::${project.lwjgl_natives}")
+	include(runtimeOnly "org.lwjgl:lwjgl-vma::${project.lwjgl_natives}")
+	if (project.lwjgl_natives == "natives-macos" || project.lwjgl_natives == "natives-macos-arm64") runtimeOnly "org.lwjgl:lwjgl-vulkan::${project.lwjgl_natives}"
 }
 
 processResources {

@@ -3,6 +3,10 @@
 	"package": "me.yoarchh.iridium.mixin",
 	"compatibilityLevel": "JAVA_17",
 	"client": [
+		"blaze3d.systems.RenderSystemMixin",
+
+		"client.MinecraftClientMixin",
+
 		"SharedConstantsMixin"
 	],
 	"injectors": {
